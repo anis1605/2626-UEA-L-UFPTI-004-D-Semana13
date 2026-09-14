@@ -1,0 +1,21 @@
+<footer class="footer text-center text-md-start mt-auto">
+    <div class="container">
+        <div class="row gy-3">
+            <div class="col-md-6">
+                <h5 class="text-white"><i class="bi bi-tools me-2 text-primary"></i>{{ sistema.empresa }}</h5>
+                <p class="mb-1">Su tienda de confianza para todo tipo de materiales de construcción y ferretería pesada.</p>
+                <small class="d-block text-info">Desarrollado por: <strong>{{ sistema.desarrollador }}</strong></small>
+                <small class="text-muted">Asignatura: {{ sistema.asignatura }} ({{ sistema.periodo }}) - Avance 13/16</small>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-1"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Sucursal: {{ sistema.sucursal_principal }}</p>
+                <p class="mb-1"><i class="bi bi-telephone-fill text-success me-1"></i> Teléfono: {{ sistema.telefono_contacto }}</p>
+                <p class="mb-0"><i class="bi bi-envelope-fill text-primary me-1"></i> Email: {{ sistema.email_contacto }}</p>
+            </div>
+        </div>
+        <hr class="my-3 border-secondary">
+        <div class="text-center text-muted small">
+            &copy; 2026 {{ sistema.empresa }}. Todos los derechos reservados. | Implementación con Flask, Jinja2, Flask-WTF y MySQL.
+        </div>
+    </div>
+</footer>

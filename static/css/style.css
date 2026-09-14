@@ -1,0 +1,115 @@
+/* Estilos para Ferretería El Constructor - Avance 11/16 */
+
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #0b5ed7;
+    --accent-color: #198754;
+    --dark-bg: #1e293b;
+    --light-bg: #f8fafc;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--light-bg);
+    color: #334155;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.hero-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0d6efd 100%);
+    color: #ffffff;
+    padding: 3rem 1rem;
+    border-radius: 0 0 1.25rem 1.25rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.25);
+}
+
+.hero-header h1 {
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+.card {
+    border: none;
+    border-radius: 0.85rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.table-responsive {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+.table th {
+    background-color: #1e293b;
+    color: #ffffff;
+    vertical-align: middle;
+}
+
+/* Estilos para formularios y validación WTForms */
+.form-label {
+    margin-bottom: 0.35rem;
+    color: #1e293b;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+}
+
+.invalid-feedback {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 0.3rem;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+    background-color: #fff8f8;
+}
+
+/* Pie de página */
+footer {
+    background-color: #0f172a;
+    color: #94a3b8;
+    padding: 2.5rem 0 1.5rem 0;
+    margin-top: 3.5rem;
+    border-top: 4px solid var(--primary-color);
+}
+
+footer a {
+    color: #38bdf8;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.badge {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}

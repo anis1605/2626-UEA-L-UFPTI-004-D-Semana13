@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Productos - {{ sistema.empresa }}{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card p-4 shadow-sm">
+            <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom pb-3 mb-3 gap-2">
+                <div>
+                    <h2 class="text-primary mb-0"><i class="bi bi-box-seam me-2"></i>Módulo de Productos e Inventario</h2>
+                    <small class="text-muted">Catálogo centralizado con base de datos relacional MySQL (ferreteria_db)</small>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                    <span class="badge bg-secondary fs-6">Total: {{ productos|length }} items</span>
+                    <a href="{{ url_for('nuevo_producto') }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-circle me-1"></i> Registrar Producto
+                    </a>
+                </div>
+            </div>
+
+            <div class="table-responsive mt-2">
+                <table class="table table-striped table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Código</th>
+                            <th>Material</th>
+                            <th>Categoría</th>
+                            <th>Proveedor (JOIN)</th>
+                            <th>Unidad</th>
+                            <th>Stock</th>
+                            <th>Precio Unitario</th>
+                            <th>Estado de Inventario</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                        <tr>
+                            <td><code>{{ producto.id }}</code></td>
+                            <td><strong>{{ producto.nombre }}</strong></td>
+                            <td><span class="badge bg-outline-dark border text-dark">{{ producto.categoria|upper }}</span></td>
+                            <td>
+                                {% if producto.proveedor_empresa %}
+                                    <span class="badge bg-light text-primary border"><i class="bi bi-truck me-1"></i>{{ producto.proveedor_empresa }}</span>
+                                {% else %}
+                                    <span class="badge bg-light text-muted border">Sin asignar</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ producto.unidad }}</td>
+                            <td><span class="fw-bold">{{ producto.stock }}</span></td>
+                            <td>${{ "%.2f"|format(producto.precio) }}</td>
+                            <td>
+                                {% if producto.stock > 5 %}
+                                    <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Disponible</span>
+                                {% elif producto.stock > 0 %}
+                                    <span class="badge bg-warning text-dark"><i class="bi bi-exclamation-triangle me-1"></i>Stock Bajo ({{ producto.stock }})</span>
+                                {% else %}
+                                    <span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i>Agotado</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a href="{{ url_for('editar_producto', id=producto.id) }}" class="btn btn-outline-primary btn-sm" title="Editar Producto (UPDATE)">
+                                        <i class="bi bi-pencil-square me-1"></i>Editar
+                                    </a>
+                                    <!-- Operación ELIMINAR (DELETE) con confirmación visual -->
+                                    <form method="POST" action="{{ url_for('eliminar_producto', id=producto.id) }}" class="d-inline" onsubmit="return confirm('¿Está seguro de eliminar definitivamente el producto \'{{ producto.nombre }}\' ({{ producto.id }}) de MySQL?');">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Eliminar Producto (DELETE)">
+                                            <i class="bi bi-trash3 me-1"></i>Eliminar
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="9" class="text-center text-muted py-4">
+                                <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                                No existen productos registrados en MySQL. ¡Comience agregando uno con el botón superior!
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

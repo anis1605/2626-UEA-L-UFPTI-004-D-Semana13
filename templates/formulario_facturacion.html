@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }} - {{ sistema.empresa }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-info text-white py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0 fw-bold">
+                        <i class="bi bi-receipt me-2"></i>{{ titulo }}
+                    </h4>
+                    <span class="badge bg-light text-dark">Flask-WTF Form</span>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted mb-4">
+                    Complete la información del comprobante de venta electrónica. El cálculo del IVA (15%) y Total se realiza automáticamente y se valida en el servidor. Los campos con <span class="text-danger">*</span> son obligatorios.
+                </p>
+
+                <!-- Formulario Flask-WTF con protección CSRF -->
+                <form method="POST" action="" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <div class="row g-3">
+                        <!-- Campo: Número de Factura -->
+                        <div class="col-md-6">
+                            {{ form.numero.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.numero(class="form-control" + (" is-invalid" if form.numero.errors else ""), readonly=es_edicion) }}
+                            {% if form.numero.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.numero.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Secuencial único de comprobante (ej. FAC-00105).</div>
+                        </div>
+
+                        <!-- Campo: Fecha de Emisión -->
+                        <div class="col-md-6">
+                            {{ form.fecha.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.fecha(class="form-control" + (" is-invalid" if form.fecha.errors else "")) }}
+                            {% if form.fecha.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.fecha.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Fecha en formato AAAA-MM-DD.</div>
+                        </div>
+
+                        <!-- Campo: Cliente / Razón Social -->
+                        <div class="col-md-12">
+                            {{ form.cliente.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.cliente(class="form-control" + (" is-invalid" if form.cliente.errors else "")) }}
+                            {% if form.cliente.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.cliente.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Nombre del cliente titular de la factura.</div>
+                        </div>
+
+                        <!-- Campo: Subtotal -->
+                        <div class="col-md-4">
+                            {{ form.subtotal.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                {{ form.subtotal(class="form-control" + (" is-invalid" if form.subtotal.errors else "")) }}
+                            </div>
+                            {% if form.subtotal.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.subtotal.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo: IVA 15% -->
+                        <div class="col-md-4">
+                            {{ form.iva.label(class="form-label fw-semibold") }}
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                {{ form.iva(class="form-control" + (" is-invalid" if form.iva.errors else "")) }}
+                            </div>
+                            {% if form.iva.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.iva.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo: Total General -->
+                        <div class="col-md-4">
+                            {{ form.total.label(class="form-label fw-semibold") }}
+                            <div class="input-group">
+                                <span class="input-group-text fw-bold">$</span>
+                                {{ form.total(class="form-control fw-bold text-primary" + (" is-invalid" if form.total.errors else "")) }}
+                            </div>
+                            {% if form.total.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.total.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo: Estado de la Factura -->
+                        <div class="col-md-12">
+                            {{ form.estado.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.estado(class="form-select" + (" is-invalid" if form.estado.errors else "")) }}
+                            {% if form.estado.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.estado.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Botones de Acción -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('facturacion') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancelar / Regresar
+                        </a>
+                        <div>
+                            {{ form.submit(class="btn btn-info text-white px-4 fw-semibold") }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Cálculo automático en tiempo real de IVA (15%) y Total para la interfaz de facturación
+    const subtotalInput = document.getElementById('subtotal-input');
+    const ivaInput = document.getElementById('iva-input');
+    const totalInput = document.getElementById('total-input');
+
+    function actualizarCalculosFactura() {
+        const subtotal = parseFloat(subtotalInput.value) || 0;
+        const iva = subtotal * 0.15;
+        const total = subtotal + iva;
+
+        ivaInput.value = iva.toFixed(2);
+        totalInput.value = total.toFixed(2);
+    }
+
+    if (subtotalInput) {
+        subtotalInput.addEventListener('input', actualizarCalculosFactura);
+        if (subtotalInput.value && (!ivaInput.value || !totalInput.value)) {
+            actualizarCalculosFactura();
+        }
+    }
+</script>
+{% endblock %}

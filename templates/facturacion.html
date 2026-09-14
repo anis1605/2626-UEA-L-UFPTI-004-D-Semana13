@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Facturación - {{ sistema.empresa }}{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card p-4 shadow-sm">
+            <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom pb-3 mb-3 gap-2">
+                <div>
+                    <h2 class="text-primary mb-0"><i class="bi bi-receipt me-2"></i>Módulo de Facturación y Ventas</h2>
+                    <small class="text-muted">Control de comprobantes de venta con validación y formularios Flask-WTF</small>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                    <span class="badge bg-secondary fs-6">Total: {{ facturas|length }} comprobantes</span>
+                    <a href="{{ url_for('nueva_factura') }}" class="btn btn-info text-white btn-sm">
+                        <i class="bi bi-file-earmark-plus me-1"></i> Emitir Factura
+                    </a>
+                </div>
+            </div>
+
+            <div class="table-responsive mt-2">
+                <table class="table table-striped table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>N° Comprobante</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Subtotal</th>
+                            <th>IVA (15%)</th>
+                            <th>Total General</th>
+                            <th>Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for factura in facturas %}
+                        <tr>
+                            <td><code>{{ factura.numero }}</code></td>
+                            <td>{{ factura.fecha }}</td>
+                            <td><strong>{{ factura.cliente }}</strong></td>
+                            <td>${{ "%.2f"|format(factura.subtotal) }}</td>
+                            <td>${{ "%.2f"|format(factura.iva) }}</td>
+                            <td><strong class="text-primary">${{ "%.2f"|format(factura.total) }}</strong></td>
+                            <td>
+                                {% if factura.estado == 'Pagada' %}
+                                    <span class="badge bg-success"><i class="bi bi-check-all me-1"></i>Pagada</span>
+                                {% elif factura.estado == 'Pendiente' %}
+                                    <span class="badge bg-warning text-dark"><i class="bi bi-clock me-1"></i>Pendiente</span>
+                                {% else %}
+                                    <span class="badge bg-danger"><i class="bi bi-slash-circle me-1"></i>Anulada</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ url_for('editar_factura', numero=factura.numero) }}" class="btn btn-outline-info btn-sm text-dark" title="Editar Factura">
+                                    <i class="bi bi-pencil-square me-1"></i>Editar
+                                </a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">
+                                <i class="bi bi-receipt-cutoff fs-3 d-block mb-2"></i>
+                                No existen facturas emitidas en el sistema.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

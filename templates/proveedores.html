@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Proveedores - {{ sistema.empresa }}{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card p-4 shadow-sm">
+            <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom pb-3 mb-3 gap-2">
+                <div>
+                    <h2 class="text-primary mb-0"><i class="bi bi-truck me-2"></i>Módulo de Proveedores y Distribuidores</h2>
+                    <small class="text-muted">Gestión de alianzas comerciales con validación y formularios Flask-WTF</small>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                    <span class="badge bg-secondary fs-6">Total: {{ proveedores|length }} aliados</span>
+                    <a href="{{ url_for('nuevo_proveedor') }}" class="btn btn-warning text-dark btn-sm fw-semibold">
+                        <i class="bi bi-plus-circle me-1"></i> Registrar Proveedor
+                    </a>
+                </div>
+            </div>
+
+            <div class="table-responsive mt-2">
+                <table class="table table-striped table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>RUC</th>
+                            <th>Empresa Proveedora</th>
+                            <th>Línea de Suministro</th>
+                            <th>Contacto Principal</th>
+                            <th>Teléfono</th>
+                            <th>Ciudad</th>
+                            <th>Estado de Convenio</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prov in proveedores %}
+                        <tr>
+                            <td><code>{{ prov.ruc }}</code></td>
+                            <td><strong>{{ prov.empresa }}</strong></td>
+                            <td><span class="badge bg-light text-dark border">{{ prov.categoria }}</span></td>
+                            <td>{{ prov.contacto }}</td>
+                            <td>{{ prov.telefono }}</td>
+                            <td>{{ prov.ciudad|upper }}</td>
+                            <td>
+                                {% if prov.activo %}
+                                    <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Activo</span>
+                                {% else %}
+                                    <span class="badge bg-secondary"><i class="bi bi-pause-circle me-1"></i>Inactivo</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ url_for('editar_proveedor', ruc=prov.ruc) }}" class="btn btn-outline-warning text-dark btn-sm" title="Editar Proveedor">
+                                    <i class="bi bi-pencil-square me-1"></i>Editar
+                                </a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">
+                                <i class="bi bi-truck-flatbed fs-3 d-block mb-2"></i>
+                                No existen proveedores registrados.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

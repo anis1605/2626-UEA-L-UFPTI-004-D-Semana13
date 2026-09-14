@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }} - {{ sistema.empresa }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0 fw-bold">
+                        <i class="bi bi-box-seam me-2"></i>{{ titulo }}
+                    </h4>
+                    <span class="badge bg-light text-primary">Flask-WTF Form</span>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted mb-4">
+                    Complete los campos solicitados para la gestión del material. Todos los campos marcados con <span class="text-danger">*</span> son obligatorios y serán validados en el servidor.
+                </p>
+
+                <!-- Formulario Flask-WTF con protección CSRF -->
+                <form method="POST" action="" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <div class="row g-3">
+                        <!-- Campo: Código / ID -->
+                        <div class="col-md-6">
+                            {{ form.id.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.id(class="form-control" + (" is-invalid" if form.id.errors else ""), readonly=es_edicion) }}
+                            {% if form.id.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.id.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Código alfanumérico único para el producto (ej. PROD-008).</div>
+                        </div>
+
+                        <!-- Campo: Nombre -->
+                        <div class="col-md-6">
+                            {{ form.nombre.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.nombre(class="form-control" + (" is-invalid" if form.nombre.errors else "")) }}
+                            {% if form.nombre.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.nombre.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Nombre comercial descriptivo del material.</div>
+                        </div>
+
+                        <!-- Campo: Categoría -->
+                        <div class="col-md-6">
+                            {{ form.categoria.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.categoria(class="form-select" + (" is-invalid" if form.categoria.errors else "")) }}
+                            {% if form.categoria.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.categoria.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo: Unidad de Medida -->
+                        <div class="col-md-6">
+                            {{ form.unidad.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.unidad(class="form-select" + (" is-invalid" if form.unidad.errors else "")) }}
+                            {% if form.unidad.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.unidad.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo: Stock -->
+                        <div class="col-md-6">
+                            {{ form.stock.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.stock(class="form-control" + (" is-invalid" if form.stock.errors else "")) }}
+                            {% if form.stock.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.stock.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Cantidad física en bodega (mínimo 0).</div>
+                        </div>
+
+                        <!-- Campo: Precio -->
+                        <div class="col-md-6">
+                            {{ form.precio.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                {{ form.precio(class="form-control" + (" is-invalid" if form.precio.errors else "")) }}
+                            </div>
+                            {% if form.precio.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.precio.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Precio unitario en dólares (ej. 10.50).</div>
+                        </div>
+
+                        <!-- Campo: Proveedor Asignado (Relación Clave Foránea FK) -->
+                        <div class="col-md-12">
+                            {{ form.proveedor_ruc.label(class="form-label fw-semibold") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-truck"></i></span>
+                                {{ form.proveedor_ruc(class="form-select" + (" is-invalid" if form.proveedor_ruc.errors else "")) }}
+                            </div>
+                            {% if form.proveedor_ruc.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.proveedor_ruc.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text text-muted">Relación relacional de clave foránea (FOREIGN KEY) con la tabla <code>proveedores</code>.</div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Botones de Acción -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('productos') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancelar / Regresar
+                        </a>
+                        <div>
+                            {{ form.submit(class="btn btn-primary px-4 fw-semibold") }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

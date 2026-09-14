@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - {{ sistema.empresa }}{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Tarjetas de resumen dinamico de la aplicacion -->
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+            <h3 class="text-primary mb-0"><i class="bi bi-speedometer2 me-2"></i>Panel de Control y Resumen</h3>
+            <span class="badge bg-primary px-3 py-2 fs-6">Semana 13 - Base de Datos MySQL (ferreteria_db)</span>
+        </div>
+        
+        <div class="row g-3 text-center">
+            <div class="col-md-3 col-sm-6">
+                <div class="card p-3 bg-primary text-white h-100 shadow">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold">Productos</span>
+                        <i class="bi bi-box-seam fs-4"></i>
+                    </div>
+                    <h2 class="display-6 fw-bold my-1">{{ resumen.total_productos }}</h2>
+                    <p class="small mb-3 text-white-50">Items en MySQL</p>
+                    <div class="mt-auto d-grid gap-1">
+                        <a href="{{ url_for('productos') }}" class="btn btn-light btn-sm text-primary fw-semibold"><i class="bi bi-list-ul"></i> Ver Catálogo</a>
+                        <a href="{{ url_for('nuevo_producto') }}" class="btn btn-outline-light btn-sm"><i class="bi bi-plus-circle"></i> Nuevo</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card p-3 bg-success text-white h-100 shadow">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold">Clientes</span>
+                        <i class="bi bi-people fs-4"></i>
+                    </div>
+                    <h2 class="display-6 fw-bold my-1">{{ resumen.total_clientes }}</h2>
+                    <p class="small mb-3 text-white-50">Clientes en MySQL</p>
+                    <div class="mt-auto d-grid gap-1">
+                        <a href="{{ url_for('clientes') }}" class="btn btn-light btn-sm text-success fw-semibold"><i class="bi bi-list-ul"></i> Ver Directorio</a>
+                        <a href="{{ url_for('nuevo_cliente') }}" class="btn btn-outline-light btn-sm"><i class="bi bi-person-plus"></i> Nuevo</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card p-3 bg-warning text-dark h-100 shadow">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold">Proveedores</span>
+                        <i class="bi bi-truck fs-4"></i>
+                    </div>
+                    <h2 class="display-6 fw-bold my-1">{{ resumen.total_proveedores }}</h2>
+                    <p class="small mb-3 text-dark-50">Aliados en MySQL</p>
+                    <div class="mt-auto d-grid gap-1">
+                        <a href="{{ url_for('proveedores') }}" class="btn btn-dark btn-sm text-white fw-semibold"><i class="bi bi-list-ul"></i> Ver Proveedores</a>
+                        <a href="{{ url_for('nuevo_proveedor') }}" class="btn btn-outline-dark btn-sm"><i class="bi bi-plus-circle"></i> Nuevo</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card p-3 bg-info text-white h-100 shadow">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold">Facturación</span>
+                        <i class="bi bi-receipt fs-4"></i>
+                    </div>
+                    <h2 class="display-6 fw-bold my-1">{{ resumen.total_facturas }}</h2>
+                    <p class="small mb-3 text-white-50">Facturas en MySQL</p>
+                    <div class="mt-auto d-grid gap-1">
+                        <a href="{{ url_for('facturacion') }}" class="btn btn-light btn-sm text-info fw-semibold"><i class="bi bi-list-ul"></i> Ver Historial</a>
+                        <a href="{{ url_for('nueva_factura') }}" class="btn btn-outline-light btn-sm"><i class="bi bi-file-earmark-plus"></i> Emitir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Novedades de la Semana 13 -->
+    <div class="col-12">
+        <div class="card p-4 border-start border-primary border-4 shadow-sm bg-light">
+            <h4 class="text-primary fw-bold mb-2"><i class="bi bi-database-gear me-2"></i>Avance Semana 13: Base de Datos Relacional MySQL y CRUD Completo</h4>
+            <p class="mb-0 text-secondary">
+                La aplicación ahora está conectada al motor de base de datos relacional <strong>MySQL</strong> (<code>ferreteria_db</code>) mediante el módulo centralizado <code>conexion/conexion.py</code>.
+                Se integró el modelo relacional con claves primarias y foráneas (<code>sql/esquema.sql</code>), consultas con <code>LEFT JOIN</code> entre productos y proveedores, y las cuatro operaciones CRUD fundamentales: <strong>SELECT (Listar), INSERT (Agregar), UPDATE (Modificar) y DELETE (Eliminar)</strong>.
+            </p>
+        </div>
+    </div>
+
+    <!-- Seccion Quienes Somos -->
+    <div class="col-md-6">
+        <div class="card h-100 p-4 shadow-sm">
+            <h3 class="text-primary border-bottom pb-2"><i class="bi bi-building me-2"></i>Quiénes Somos</h3>
+            <p>Somos una empresa líder dedicada a ofrecer los mejores materiales para la construcción pesada y acabados finos, con años de experiencia en el mercado ecuatoriano.</p>
+            <p>Brindamos productos de la más alta calidad garantizada para todo tipo de obras residenciales, comerciales e industriales en la región amazónica y a nivel nacional.</p>
+            <img src="{{ url_for('static', filename='img/ferreteria.jpg') }}" alt="{{ sistema.empresa }}" class="img-fluid rounded mt-3 shadow-sm">
+        </div>
+    </div>
+
+    <!-- Seccion Informacion de Contacto -->
+    <div class="col-md-6">
+        <div class="card h-100 p-4 shadow-sm">
+            <h3 class="text-primary border-bottom pb-2"><i class="bi bi-info-circle me-2"></i>Información Corporativa</h3>
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item px-0"><strong><i class="bi bi-briefcase text-primary me-2"></i>Empresa:</strong> {{ sistema.empresa }}</li>
+                <li class="list-group-item px-0"><strong><i class="bi bi-envelope text-primary me-2"></i>Correo Electrónico:</strong> {{ sistema.email_contacto }}</li>
+                <li class="list-group-item px-0"><strong><i class="bi bi-telephone text-primary me-2"></i>Teléfono:</strong> {{ sistema.telefono_contacto }}</li>
+                <li class="list-group-item px-0"><strong><i class="bi bi-geo-alt text-primary me-2"></i>Sucursal Principal:</strong> {{ sistema.sucursal_principal }}</li>
+            </ul>
+
+            <h5 class="mt-2 text-secondary"><i class="bi bi-share me-2"></i>Redes Sociales Oficiales:</h5>
+            <div class="d-flex gap-2 mt-2">
+                <a href="https://www.facebook.com" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-facebook me-1"></i>Facebook</a>
+                <a href="https://www.instagram.com" target="_blank" class="btn btn-outline-danger btn-sm"><i class="bi bi-instagram me-1"></i>Instagram</a>
+                <a href="https://www.twitter.com" target="_blank" class="btn btn-outline-info btn-sm"><i class="bi bi-twitter-x me-1"></i>Twitter</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ubicaciones en Mapa -->
+    <div class="col-12">
+        <div class="card p-4 shadow-sm">
+            <h3 class="text-primary border-bottom pb-2 mb-3"><i class="bi bi-map me-2"></i>Ubicaciones y Puntos de Venta</h3>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <h5 class="fw-semibold"><i class="bi bi-geo-fill text-danger me-1"></i>Terminal Terrestre de Puyo</h5>
+                    <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7976.94100637376!2d-78.0091589588659!3d-1.4893226242118578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d3de1ce32c3ea5%3A0xaeb27a92e5437d57!2sTerminal%20terrestre%20de%20Puyo!5e0!3m2!1ses!2sec!4v1781362120140!5m2!1ses!2sec" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="fw-semibold"><i class="bi bi-geo-fill text-danger me-1"></i>Coliseo General Rumiñahui</h5>
+                    <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31918.325582365018!2d-78.50697414335279!3d-0.213202938153751!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d59a1a52d9f309%3A0xe58b3f1e72d76d60!2sColiseo%20General%20Rumi%C3%B1ahui!5e0!3m2!1ses!2sec!4v1781135507755!5m2!1ses!2sec" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

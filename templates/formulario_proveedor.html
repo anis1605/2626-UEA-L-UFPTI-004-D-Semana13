@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }} - {{ sistema.empresa }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-warning text-dark py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0 fw-bold">
+                        <i class="bi bi-truck me-2"></i>{{ titulo }}
+                    </h4>
+                    <span class="badge bg-dark text-white">Flask-WTF Form</span>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted mb-4">
+                    Complete la información del aliado comercial o distribuidor mayorista. Los campos con <span class="text-danger">*</span> son obligatorios.
+                </p>
+
+                <!-- Formulario Flask-WTF con protección CSRF -->
+                <form method="POST" action="" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <div class="row g-3">
+                        <!-- Campo: RUC -->
+                        <div class="col-md-6">
+                            {{ form.ruc.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.ruc(class="form-control" + (" is-invalid" if form.ruc.errors else ""), readonly=es_edicion) }}
+                            {% if form.ruc.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.ruc.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">RUC oficial del proveedor (13 dígitos).</div>
+                        </div>
+
+                        <!-- Campo: Razón Social -->
+                        <div class="col-md-6">
+                            {{ form.empresa.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.empresa(class="form-control" + (" is-invalid" if form.empresa.errors else "")) }}
+                            {% if form.empresa.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.empresa.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Nombre legal o comercial de la empresa proveedora.</div>
+                        </div>
+
+                        <!-- Campo: Línea de Suministro -->
+                        <div class="col-md-6">
+                            {{ form.categoria.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.categoria(class="form-select" + (" is-invalid" if form.categoria.errors else "")) }}
+                            {% if form.categoria.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.categoria.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo: Contacto Principal -->
+                        <div class="col-md-6">
+                            {{ form.contacto.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.contacto(class="form-control" + (" is-invalid" if form.contacto.errors else "")) }}
+                            {% if form.contacto.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.contacto.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Nombre del ejecutivo de cuenta o asesor asignado.</div>
+                        </div>
+
+                        <!-- Campo: Teléfono Corporativo -->
+                        <div class="col-md-6">
+                            {{ form.telefono.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.telefono(class="form-control" + (" is-invalid" if form.telefono.errors else "")) }}
+                            {% if form.telefono.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.telefono.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo: Ciudad -->
+                        <div class="col-md-6">
+                            {{ form.ciudad.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.ciudad(class="form-control" + (" is-invalid" if form.ciudad.errors else "")) }}
+                            {% if form.ciudad.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.ciudad.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo: Activo / Convenio Vigente -->
+                        <div class="col-12">
+                            <div class="form-check form-switch p-3 bg-light rounded border">
+                                {{ form.activo(class="form-check-input ms-0 me-2") }}
+                                {{ form.activo.label(class="form-check-label fw-semibold") }}
+                                <div class="form-text text-muted">Marque esta casilla si el proveedor mantiene contrato y entregas activas con la ferretería.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Botones de Acción -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('proveedores') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancelar / Regresar
+                        </a>
+                        <div>
+                            {{ form.submit(class="btn btn-warning text-dark px-4 fw-semibold") }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

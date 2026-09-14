@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }} - {{ sistema.empresa }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-success text-white py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0 fw-bold">
+                        <i class="bi bi-people me-2"></i>{{ titulo }}
+                    </h4>
+                    <span class="badge bg-light text-success">Flask-WTF Form</span>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted mb-4">
+                    Ingrese la información comercial y tributaria del cliente. Los campos con <span class="text-danger">*</span> son obligatorios.
+                </p>
+
+                <!-- Formulario Flask-WTF con protección CSRF -->
+                <form method="POST" action="" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <div class="row g-3">
+                        <!-- Campo: Cédula / RUC -->
+                        <div class="col-md-6">
+                            {{ form.ruc.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.ruc(class="form-control" + (" is-invalid" if form.ruc.errors else ""), readonly=es_edicion) }}
+                            {% if form.ruc.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.ruc.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Cédula (10 dígitos) o RUC (13 dígitos).</div>
+                        </div>
+
+                        <!-- Campo: Nombre / Razón Social -->
+                        <div class="col-md-6">
+                            {{ form.nombre.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.nombre(class="form-control" + (" is-invalid" if form.nombre.errors else "")) }}
+                            {% if form.nombre.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.nombre.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Nombres y apellidos completos o denominación social.</div>
+                        </div>
+
+                        <!-- Campo: Tipo de Cliente -->
+                        <div class="col-md-6">
+                            {{ form.tipo.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.tipo(class="form-select" + (" is-invalid" if form.tipo.errors else "")) }}
+                            {% if form.tipo.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.tipo.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo: Teléfono -->
+                        <div class="col-md-6">
+                            {{ form.telefono.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.telefono(class="form-control" + (" is-invalid" if form.telefono.errors else "")) }}
+                            {% if form.telefono.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.telefono.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Número de teléfono celular o convencional.</div>
+                        </div>
+
+                        <!-- Campo: Correo Electrónico -->
+                        <div class="col-md-12">
+                            {{ form.email.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                            </div>
+                            {% if form.email.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.email.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Dirección electrónica para facturación y notificaciones.</div>
+                        </div>
+
+                        <!-- Campo: Dirección -->
+                        <div class="col-md-12">
+                            {{ form.direccion.label(class="form-label fw-semibold") }} <span class="text-danger">*</span>
+                            {{ form.direccion(class="form-control" + (" is-invalid" if form.direccion.errors else "")) }}
+                            {% if form.direccion.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.direccion.errors %}
+                                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Calles principal, secundaria y número de predio / ciudad.</div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Botones de Acción -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('clientes') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancelar / Regresar
+                        </a>
+                        <div>
+                            {{ form.submit(class="btn btn-success px-4 fw-semibold") }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
