@@ -38,8 +38,8 @@ El sistema modela 4 entidades principales con claves primarias (`PRIMARY KEY`) y
    - `ruc` (VARCHAR(13), PK)
    - `nombre`, `contacto`, `telefono`, `correo`, `direccion`, `categoria`
 2. **`productos`**:
-   - `id` (INT AUTO_INCREMENT, PK)
-   - `nombre`, `codigo`, `categoria`, `precio`, `stock`, `stock_minimo`, `descripcion`
+   - `id` (VARCHAR(20), PK)
+   - `nombre`, `categoria`, `unidad`, `stock`, `precio`
    - `proveedor_ruc` (VARCHAR(13), **FK** -> `proveedores(ruc)`)
 3. **`clientes`**:
    - `ruc` (VARCHAR(13), PK)
@@ -60,13 +60,13 @@ El sistema modela 4 entidades principales con claves primarias (`PRIMARY KEY`) y
   ```
 - **INSERT (Agregar):**
   ```sql
-  INSERT INTO productos (nombre, codigo, categoria, precio, stock, stock_minimo, proveedor_ruc, descripcion) 
-  VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
+  INSERT INTO productos (id, nombre, categoria, unidad, stock, precio, proveedor_ruc) 
+  VALUES (%s, %s, %s, %s, %s, %s, %s);
   ```
 - **UPDATE (Modificar con WHERE):**
   ```sql
   UPDATE productos 
-  SET nombre=%s, codigo=%s, categoria=%s, precio=%s, stock=%s, stock_minimo=%s, proveedor_ruc=%s, descripcion=%s 
+  SET nombre=%s, categoria=%s, unidad=%s, stock=%s, precio=%s, proveedor_ruc=%s 
   WHERE id=%s;
   ```
 - **DELETE (Eliminar con WHERE):**
